@@ -59,22 +59,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(){
-        String correo = correotext.getText().toString();
-        String password = contrasenatxt.getText().toString();
+        String correo_usu = correotext.getText().toString();
+        String password_usu = contrasenatxt.getText().toString();
 
-        if(correo.isEmpty()){
+        if(correo_usu.isEmpty()){
             Toast.makeText(this, "Ingrese el nombre de usuario", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(password.isEmpty()){
+        if(password_usu.isEmpty()){
             Toast.makeText(this, "Ingrese el password", Toast.LENGTH_SHORT).show();
             return;
         }
 
         ApiService service = ApiServiceGenerator.createService(ApiService.class);
 
-        Call<Usuario> call = service.login(correo, password);
+        Call<Usuario> call = service.login(correo_usu, password_usu);
 
         call.enqueue(new Callback<Usuario>() {
             @Override
@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
                     sp.edit()
-                            .putString("correo", usuario.getCorreo())
+                            .putString("correo", usuario.getCorreo_usu())
                             .putBoolean("islogged", true)
                             .commit();
 
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();
 
-                    Toast.makeText(LoginActivity.this, "Bienvenido " + usuario.getNombres(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Bienvenido " + usuario.getNombre_usu(), Toast.LENGTH_LONG).show();
 
                 }else{
                     ApiError error = ApiServiceGenerator.parseError(response);
@@ -111,9 +111,9 @@ public class LoginActivity extends AppCompatActivity {
     private void loadLastUsername(){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String correo = sp.getString("correo", null);
-        if(correo != null){
-            correotext.setText(correo);
+        String correo_usu = sp.getString("username", null);
+        if(correo_usu != null){
+            correotext.setText(correo_usu);
         }
     }
 
@@ -126,6 +126,5 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
-
     }
 }

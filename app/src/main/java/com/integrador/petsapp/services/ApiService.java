@@ -15,37 +15,31 @@ public interface ApiService {
 
     String API_BASE_URL = "http://10.0.2.2:8080";
 
-    @GET("/api/mascotas") //Ruta de la api http://10.0.2.2:8080/productos
+    @GET("/mascotas") //Ruta de la api http://10.0.2.2:8080/productos
     Call<List<Mascota>> findAll();
 
-    @FormUrlEncoded
-    @POST("/api/mascotas")
-    Call<Mascota> createProducto(@Field("nombre") String nombre,
-                                  @Field("precio") String precio,
-                                  @Field("detalles") String detalles);
+    @GET("/api/usuarios")
+    Call<List<Usuario>> buscartodos();
+
+
+    @POST("/api/usuarios")
+    Call<Usuario> createUsuario(@Body Usuario usuarios);
+
+
     @Multipart
-    @POST("/api/mascotas")
-    Call<Mascota> createProducto(@Part("nombre") RequestBody nombre,
-                                  @Part("precio") RequestBody precio,
-                                  @Part("detalles") RequestBody detalles,
-                                  @Part MultipartBody.Part imagen
+    @POST("/api/usuarios")
+    Call<Usuario> createUsuario(@Part("nombre_usu") RequestBody nombre_usu,
+                                  @Part("correo_usu") RequestBody correo_usu,
+                                  @Part("password_usu") RequestBody password_usu
     );
-
-    @DELETE("/api/mascotas/{id}")
-    Call<ApiMessage> destroyProducto(@Path("id") Long id);
-
-    @GET("/api/mascotas/{id}")
-    Call<Mascota> showProducto(@Path("id") Long id);
 
     @FormUrlEncoded
     @POST("/auth/login")
-    Call<Usuario> login(@Field("correo") String correo,
-                        @Field("password") String password);
+    Call<Usuario> login(@Field("correo_usu") String correo_usu,
+                        @Field("password_usu") String password_usu);
 
-    @GET("/api/profile")
-    Call<Usuario> getProfile();
 
-    @GET("/api/productos/name/{nombre}")
+    @GET("/api/mascotas/name/{nombre}")
     Call<List<Mascota>> FindByName(@Path("nombre") String nombre);
 
 }
